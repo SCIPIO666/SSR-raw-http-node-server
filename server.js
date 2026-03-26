@@ -7,6 +7,36 @@ const server=http.createServer((req,res)=>{
 
 console.log(req.url)
 let filePath='';
+//handle static public files
+if(req.url==="/styles.css"){
+    console.log(`Request for: ${req.url}`);
+    const cssPath=path.join(__dirname,"public","styles.css");
+    fs.readFile(cssPath,(err,data)=>{
+        if(err){
+         res.writeHead(500);
+        res.end("Css Not Found");
+        return;           
+        }
+     res.writeHead(200, { "Content-Type": "text/css" });
+      res.end(data);
+    })
+    return;
+}
+if(req.url==="/script.js"){
+    console.log(`Request for: ${req.url}`);
+    const jsPath=path.join(__dirname,"public","script.js");
+    fs.readFile(jsPath,(err,data)=>{
+        if(err){
+         res.writeHead(500);
+        res.end("Server Error");
+        return;           
+        }
+     res.writeHead(200, { "Content-Type": "application/javascript" });
+      res.end(data);
+    })
+    return;
+}
+
 
 //routes
     if(req.url==="/"){
